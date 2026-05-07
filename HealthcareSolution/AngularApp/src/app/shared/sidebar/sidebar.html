@@ -1,0 +1,8 @@
+<aside class="sidebar" *ngIf="auth.currentUser() as user">
+  <p class="eyebrow">Workspace</p>
+  <a routerLink="/dashboard" routerLinkActive="active">Overview</a>
+  <a routerLink="/appointments" routerLinkActive="active">Appointments</a>
+  <a routerLink="/doctors" routerLinkActive="active">Doctors</a>
+  <a *ngIf="user.role === 'Patient' || user.role === 'Admin'" routerLink="/patient" routerLinkActive="active">Patient Profile</a>
+  <a *ngIf="user.role === 'Doctor' || user.role === 'Admin'" routerLink="/doctor" routerLinkActive="active">Doctor Profile</a>
+</aside>

@@ -1,0 +1,34 @@
+<section class="page-head">
+  <p class="eyebrow">Patient</p>
+  <h1>Patient profile</h1>
+</section>
+
+<p class="message" *ngIf="message">{{ message }}</p>
+
+<form class="panel" (ngSubmit)="save()">
+  <div class="panel-head">
+    <h2>{{ editingId ? 'Edit Patient' : auth.currentUser()?.role === 'Admin' ? 'Add Patient' : 'Profile Details' }}</h2>
+    <button type="button" class="ghost" *ngIf="auth.currentUser()?.role === 'Admin' && editingId" (click)="resetForm()">New</button>
+  </div>
+  <div class="form-row">
+    <label *ngIf="auth.currentUser()?.role === 'Admin'">User ID <input name="patientUserId" type="number" min="1" [(ngModel)]="form.userId" required></label>
+    <label>Name <input name="patientName" [(ngModel)]="form.name" required></label>
+    <label>Age <input name="patientAge" type="number" min="1" [(ngModel)]="form.age" required></label>
+  </div>
+  <button type="submit" [disabled]="auth.currentUser()?.role === 'Admin' && !form.userId">Save patient</button>
+</form>
+
+<section class="panel" *ngIf="auth.currentUser()?.role === 'Admin'">
+  <h2>All Patients</h2>
+  <article class="row" *ngFor="let patient of patients">
+    <div>
+      <strong>{{ patient.name }}</strong>
+      <span>Age {{ patient.age }}</span>
+    </div>
+    <span class="actions">
+      <small>User {{ patient.userId }}</small>
+      <button type="button" class="ghost" (click)="edit(patient)">Edit</button>
+      <button type="button" class="danger" (click)="delete(patient)">Delete</button>
+    </span>
+  </article>
+</section>

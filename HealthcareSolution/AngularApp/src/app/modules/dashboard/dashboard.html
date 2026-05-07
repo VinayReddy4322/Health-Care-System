@@ -1,0 +1,22 @@
+<section class="page-head">
+  <p class="eyebrow">Dashboard</p>
+  <h1>Appointments and patient care</h1>
+  <p *ngIf="auth.currentUser() as user">Signed in as {{ user.username }} with {{ user.role }} access.</p>
+</section>
+
+<p class="message" *ngIf="message">{{ message }}</p>
+
+<section class="stats">
+  <article class="panel stat">
+    <span>{{ doctors }}</span>
+    <strong>Doctors</strong>
+  </article>
+  <article class="panel stat">
+    <span>{{ appointments }}</span>
+    <strong>Appointments</strong>
+  </article>
+  <article class="panel stat">
+    <span>{{ patients || '-' }}</span>
+    <strong>Patients</strong>
+  </article>
+</section>

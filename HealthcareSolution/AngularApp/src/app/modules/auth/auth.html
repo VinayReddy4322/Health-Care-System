@@ -1,0 +1,30 @@
+<section class="page-head">
+  <p class="eyebrow">Secure Access</p>
+  <h1>Healthcare login</h1>
+  <p>Use a seeded account or register a new role-based user.</p>
+</section>
+
+<p class="message" *ngIf="message">{{ message }}</p>
+
+<section class="auth-grid">
+  <form class="panel" (ngSubmit)="login()">
+    <h2>Login</h2>
+    <label>Username <input name="username" [(ngModel)]="loginForm.username" required></label>
+    <label>Password <input name="password" type="password" [(ngModel)]="loginForm.password" required></label>
+    <button type="submit" [disabled]="busy">Sign in</button>
+    <p class="hint">admin/admin123, patient1/patient123, doctor1/doctor123</p>
+  </form>
+
+  <form class="panel" (ngSubmit)="register()">
+    <h2>Register</h2>
+    <label>Username <input name="newUsername" [(ngModel)]="registerForm.username" required></label>
+    <label>Password <input name="newPassword" type="password" [(ngModel)]="registerForm.password" required></label>
+    <label>
+      Role
+      <select name="role" [(ngModel)]="registerForm.role">
+        <option *ngFor="let role of roles" [ngValue]="role">{{ role }}</option>
+      </select>
+    </label>
+    <button type="submit" [disabled]="busy">Create account</button>
+  </form>
+</section>

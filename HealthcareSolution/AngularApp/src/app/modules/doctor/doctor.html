@@ -1,0 +1,57 @@
+<section class="page-head">
+  <p class="eyebrow">Doctor</p>
+  <h1>Doctors</h1>
+</section>
+
+<p class="message" *ngIf="message">{{ message }}</p>
+
+<form class="panel" *ngIf="auth.currentUser()?.role === 'Doctor' || auth.currentUser()?.role === 'Admin'" (ngSubmit)="save()">
+  <div class="panel-head">
+    <h2>{{ editingId ? 'Edit Doctor' : auth.currentUser()?.role === 'Admin' ? 'Add Doctor' : 'Doctor Profile' }}</h2>
+    <button type="button" class="ghost" *ngIf="auth.currentUser()?.role === 'Admin' && editingId" (click)="resetForm()">New</button>
+  </div>
+  <div class="form-row">
+    <label *ngIf="auth.currentUser()?.role === 'Admin'">User ID <input name="doctorUserId" type="number" min="1" [(ngModel)]="form.userId" required></label>
+    <label>Name <input name="doctorName" [(ngModel)]="form.name" required></label>
+    <label>Specialization <input name="specialization" [(ngModel)]="form.specialization" required></label>
+  </div>
+  <button type="submit" [disabled]="auth.currentUser()?.role === 'Admin' && !form.userId">Save doctor</button>
+</form>
+
+<section class="panel">
+  <h2>Available Doctors</h2>
+  <article class="row" *ngFor="let doctor of doctors">
+    <div>
+      <strong>{{ doctor.name }}</strong>
+      <span>{{ doctor.specialization }}</span>
+    </div>
+    <span class="actions">
+      <small>User {{ doctor.userId }}</small>
+      <button type="button" class="ghost" *ngIf="auth.currentUser()?.role === 'Admin'" (click)="edit(doctor)">Edit</button>
+      <button type="button" class="danger" *ngIf="auth.currentUser()?.role === 'Admin'" (click)="delete(doctor)">Delete</button>
+    </span>
+  </article>
+</section>
+
+<section class="panel" *ngIf="auth.currentUser()?.role === 'Doctor' || auth.currentUser()?.role === 'Admin'">
+  <div class="panel-head">
+    <h2>Patient Appointments</h2>
+    <button type="button" class="ghost" (click)="load()">Refresh</button>
+  </div>
+
+  <div class="table">
+    <div class="table-head patient-table">
+      <span>Patient</span>
+      <span>Time</span>
+      <span>Status</span>
+    </div>
+    <article class="table-row patient-table" *ngFor="let appointment of appointments">
+      <span>{{ patientName(appointment.patientId) }}</span>
+      <span>{{ appointment.appointmentDate | date:'medium' }}</span>
+      <span class="badge" [class.done]="appointment.status === status.Completed" [class.cancelled]="appointment.status === status.Cancelled">
+        {{ statusLabel(appointment.status) }}
+      </span>
+    </article>
+    <p class="empty" *ngIf="appointments.length === 0">No patient appointments found.</p>
+  </div>
+</section>

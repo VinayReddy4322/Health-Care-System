@@ -1,0 +1,50 @@
+<section class="page-head">
+  <p class="eyebrow">Appointment</p>
+  <h1>Appointment lifecycle</h1>
+</section>
+
+<p class="message" *ngIf="message">{{ message }}</p>
+
+<form class="panel" *ngIf="canBook()" (ngSubmit)="book()">
+  <h2>Book Appointment</h2>
+  <div class="form-row">
+    <label>
+      Doctor
+      <select name="doctorId" [(ngModel)]="booking.doctorId">
+        <option *ngFor="let doctor of doctors" [ngValue]="doctor.userId">{{ doctor.name }}</option>
+      </select>
+    </label>
+    <label>Date and time <input name="appointmentDate" type="datetime-local" [(ngModel)]="booking.appointmentDate" required></label>
+  </div>
+  <button type="submit" [disabled]="!booking.doctorId">Book</button>
+</form>
+
+<section class="panel">
+  <div class="panel-head">
+    <h2>Appointments</h2>
+    <button type="button" class="ghost" (click)="load()">Refresh</button>
+  </div>
+
+  <div class="table">
+    <div class="table-head">
+      <span>Patient</span>
+      <span>Doctor</span>
+      <span>Date</span>
+      <span>Status</span>
+      <span>Actions</span>
+    </div>
+    <article class="table-row" *ngFor="let appointment of appointments">
+      <span>{{ patientName(appointment.patientId) }}</span>
+      <span>{{ doctorName(appointment.doctorId) }}</span>
+      <span>{{ appointment.appointmentDate | date:'medium' }}</span>
+      <span class="badge" [class.done]="appointment.status === status.Completed" [class.cancelled]="appointment.status === status.Cancelled">
+        {{ statusLabel(appointment.status) }}
+      </span>
+      <span class="actions">
+        <button type="button" class="ghost" *ngIf="canComplete(appointment)" (click)="complete(appointment.id)">Complete</button>
+        <button type="button" class="danger" *ngIf="canCancel(appointment)" (click)="cancel(appointment.id)">Cancel</button>
+      </span>
+    </article>
+    <p class="empty" *ngIf="appointments.length === 0">No appointments found.</p>
+  </div>
+</section>

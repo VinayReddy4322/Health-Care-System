@@ -1,0 +1,24 @@
+<header class="topbar">
+  <a class="brand" routerLink="/dashboard">
+    <span class="brand-mark">H</span>
+    <span>Healthcare</span>
+  </a>
+
+  <nav *ngIf="auth.currentUser()">
+    <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+    <a routerLink="/appointments" routerLinkActive="active">Appointments</a>
+    <a routerLink="/doctors" routerLinkActive="active">Doctors</a>
+    <a *ngIf="auth.currentUser()?.role !== 'Doctor'" routerLink="/patient" routerLinkActive="active">Patient</a>
+    <a *ngIf="auth.currentUser()?.role !== 'Patient'" routerLink="/doctor" routerLinkActive="active">Doctor</a>
+  </nav>
+
+  <div class="session" *ngIf="auth.currentUser() as user; else guest">
+    <span>{{ user.username }}</span>
+    <strong>{{ user.role }}</strong>
+    <button type="button" (click)="logout()">Logout</button>
+  </div>
+
+  <ng-template #guest>
+    <a class="login-link" routerLink="/auth">Login</a>
+  </ng-template>
+</header>
