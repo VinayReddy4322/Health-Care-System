@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>FluentValidation</id>
+    <version>10.3.6</version>
+    <authors>Jeremy Skinner</authors>
+    <license type="expression">Apache-2.0</license>
+    <licenseUrl>https://licenses.nuget.org/Apache-2.0</licenseUrl>
+    <icon>fluent-validation-icon.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>https://fluentvalidation.net/</projectUrl>
+    <description>A validation library for .NET that uses a fluent interface to construct strongly-typed validation rules.</description>
+    <releaseNotes>FluentValidation 10 is a major release. Please read the upgrade guide at https://docs.fluentvalidation.net/en/latest/upgrading-to-10.html
+
+Full release notes can be found at https://github.com/FluentValidation/FluentValidation/releases</releaseNotes>
+    <copyright>Copyright (c) .NET Foundation and contributors 2008-2021</copyright>
+    <repository type="git" url="https://github.com/JeremySkinner/fluentvalidation" commit="b472f8bc7283484da65891ab89acba0fdb13b5de" />
+    <dependencies>
+      <group targetFramework="net5.0" />
+      <group targetFramework="net6.0" />
+      <group targetFramework=".NETStandard2.0" />
+      <group targetFramework=".NETStandard2.1" />
+    </dependencies>
+  </metadata>
+</package>

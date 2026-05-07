@@ -1,0 +1,6 @@
+﻿namespace AppointmentService.Repositories
+{
+    public class AppointmentRepositry
+    {
+    }
+}

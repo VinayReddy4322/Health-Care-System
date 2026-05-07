@@ -1,0 +1,6 @@
+﻿namespace DoctorService.Models
+{
+    public class Doctor
+    {
+    }
+}

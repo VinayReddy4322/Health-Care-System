@@ -1,0 +1,6 @@
+﻿namespace DoctorService.Controllers
+{
+    public class DoctorController
+    {
+    }
+}

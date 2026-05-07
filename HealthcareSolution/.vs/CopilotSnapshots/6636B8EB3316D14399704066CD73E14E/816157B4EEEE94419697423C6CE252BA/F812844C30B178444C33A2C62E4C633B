@@ -1,0 +1,51 @@
+﻿
+namespace PatientService
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            // configure in-memory db and DI
+            builder.Services.AddDbContext<PatientDbContext>(opt => opt.UseInMemoryDatabase("PatientDb"));
+            builder.Services.AddScoped<PatientService.Repositories.IPatientRepository, PatientService.Repositories.PatientRepository>();
+            builder.Services.AddScoped<PatientService.Services.IPatientService, PatientService.Services.PatientService>();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
+
+
+            app.MapControllers();
+
+            // seed data
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<PatientDbContext>();
+                if (!db.Patients.Any())
+                {
+                    db.Patients.AddRange(new Models.Patient { Name = "John Doe", Age = 30 }, new Models.Patient { Name = "Jane Smith", Age = 25 });
+                    db.SaveChanges();
+                }
+            }
+
+            app.Run();
+        }
+    }
+}

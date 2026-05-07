@@ -1,0 +1,52 @@
+﻿
+namespace AppointmentService
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+
+            // Add services to the container.
+
+            builder.Services.AddControllers();
+            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
+            // configure in-memory db and DI
+            builder.Services.AddDbContext<AppointmentDbContext>(opt => opt.UseInMemoryDatabase("AppointmentDb"));
+            builder.Services.AddScoped<AppointmentService.Repositories.IAppointmentRepository, AppointmentService.Repositories.AppointmentRepository>();
+            builder.Services.AddScoped<AppointmentService.Services.IAppointmentService, AppointmentService.Services.AppointmentService>();
+
+            var app = builder.Build();
+
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
+            app.UseHttpsRedirection();
+
+            app.UseAuthorization();
+
+
+            app.MapControllers();
+
+            // seed data
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<AppointmentDbContext>();
+                if (!db.Appointments.Any())
+                {
+                    db.Appointments.AddRange(new Models.Appointment { PatientId = 1, DoctorId = 1, AppointmentDate = DateTime.UtcNow.AddDays(1) },
+                                             new Models.Appointment { PatientId = 2, DoctorId = 2, AppointmentDate = DateTime.UtcNow.AddDays(2) });
+                    db.SaveChanges();
+                }
+            }
+
+            app.Run();
+        }
+    }
+}

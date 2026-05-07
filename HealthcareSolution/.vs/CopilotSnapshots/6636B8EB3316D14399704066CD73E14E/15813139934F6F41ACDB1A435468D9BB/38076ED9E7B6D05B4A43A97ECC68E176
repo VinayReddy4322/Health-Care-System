@@ -1,0 +1,6 @@
+﻿namespace DoctorService.Repositories
+{
+    public class DoctorRepository
+    {
+    }
+}

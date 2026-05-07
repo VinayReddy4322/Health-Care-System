@@ -1,0 +1,6 @@
+﻿namespace PatientService.Repositories
+{
+    public class PatientRepository
+    {
+    }
+}

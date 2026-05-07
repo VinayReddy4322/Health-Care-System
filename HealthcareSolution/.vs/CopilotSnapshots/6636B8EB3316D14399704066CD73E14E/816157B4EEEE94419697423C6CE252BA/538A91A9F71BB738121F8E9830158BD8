@@ -1,0 +1,6 @@
+﻿namespace PatientService.Data
+{
+    public class PatientDb
+    {
+    }
+}

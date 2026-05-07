@@ -1,0 +1,6 @@
+﻿namespace DoctorService.Services
+{
+    public class DoctorService
+    {
+    }
+}

@@ -1,0 +1,6 @@
+﻿namespace AppointmentService.Data
+{
+    public class AppointmentDb
+    {
+    }
+}
